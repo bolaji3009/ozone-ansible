@@ -11,7 +11,7 @@
     dest: /home/ansible/openimis-dist
     version: release/25.10
 
-- name: Start the Ozone HIS services
+- name: Start the Ozone HIS and openIMIS services
   docker_compose:
     project_src: /home/ansible/ozone
     files:
@@ -26,11 +26,6 @@
       - senaite
       - keycloak-db
       - keycloak
-      - rabbitmq
-      - imis-connect
-      - superset-db
-      - superset
-      - frontend
       - openimis-db
       - openimis-be
       - openimis-fe

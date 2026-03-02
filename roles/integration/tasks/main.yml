@@ -1,0 +1,19 @@
+---
+- name: Clone the repository
+  git:
+    repo: https://github.com/bolaji3009/ozone.git
+    dest: /home/ansible/ozone
+    version: main
+
+- name: Start the integration services
+  docker_compose:
+    project_src: /home/ansible/ozone
+    files:
+      - docker-compose.yml
+      - docker-compose.override.yml
+    services:
+      - rabbitmq
+      - imis-connect
+      - superset-db
+      - superset
+    state: present

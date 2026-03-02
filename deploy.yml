@@ -10,3 +10,7 @@
 - hosts: hcwathome
   roles:
     - hcwathome
+
+- hosts: integration
+  roles:
+    - integration

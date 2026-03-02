@@ -10,9 +10,15 @@
 #
 # [hcwathome]
 # hcwathome_server_ip ansible_host=34.46.118.101
+#
+# [integration]
+# integration_server_ip ansible_host=34.46.118.102
 
 [openimis]
 openimis_server_ip ansible_host=REPLACE_ME
 
 [hcwathome]
 hcwathome_server_ip ansible_host=REPLACE_ME
+
+[integration]
+integration_server_ip ansible_host=REPLACE_ME
