@@ -1,20 +1,40 @@
 ---
-- name: Clone the repository
+- name: Clone the main Ozone repository
   git:
     repo: https://github.com/bolaji3009/ozone.git
     dest: /home/ansible/ozone
     version: main
 
-- name: Start the openimis services
+- name: Clone the openimis-dist repository
+  git:
+    repo: https://github.com/openimis/openimis-dist_dkr.git
+    dest: /home/ansible/openimis-dist
+    version: release/25.10
+
+- name: Start the Ozone HIS services
   docker_compose:
     project_src: /home/ansible/ozone
     files:
       - docker-compose.yml
+      - docker-compose.override.yml
     services:
+      - openmrs-db
+      - openmrs
+      - odoo-db
+      - odoo
+      - senaite-db
+      - senaite
+      - keycloak-db
+      - keycloak
+      - rabbitmq
+      - imis-connect
+      - superset-db
+      - superset
+      - frontend
       - openimis-db
       - openimis-be
       - openimis-fe
-      - openimis-cache
+      - redis
       - openimis-opensearch
       - openimis-opensearch-dashboards
     state: present

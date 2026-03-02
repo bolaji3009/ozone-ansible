@@ -1,3 +1,16 @@
+# This is the Ansible inventory file.
+#
+# The IP addresses for the servers will be automatically populated by Terraform.
+# After running `terraform apply`, you can get the IP addresses by running `terraform output`.
+#
+# Example:
+#
+# [openimis]
+# openimis_server_ip ansible_host=34.46.118.100
+#
+# [hcwathome]
+# hcwathome_server_ip ansible_host=34.46.118.101
+
 [openimis]
 openimis_server_ip ansible_host=REPLACE_ME
 

@@ -10,8 +10,11 @@
     project_src: /home/ansible/ozone
     files:
       - docker-compose.yml
+      - docker-compose.override.yml
     services:
       - hcwathome-db
-      - hcwathome-be
-      - hcwathome-fe
+      - hcwathome
+      - eip-hcwathome-openmrs
+      - eip-hcwathome-mgmt-db
+      - rabbitmq-exporter
     state: present
