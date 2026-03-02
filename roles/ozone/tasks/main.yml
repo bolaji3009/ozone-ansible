@@ -1,23 +1,12 @@
 ---
-- name: Clone the repository
-  git:
-    repo: https://github.com/bolaji3009/ozone.git
-    dest: /home/ansible/ozone
-    version: main
+- name: "Placeholder: Download the Ozone HIS distribution artifact from GCS"
+  debug:
+    msg: "This task will download the ozone-distro.zip from Google Cloud Storage."
 
-- name: Start the Ozone HIS services
-  docker_compose:
-    project_src: /home/ansible/ozone
-    files:
-      - docker-compose.yml
-      - docker-compose.override.yml
-    services:
-      - openmrs-db
-      - openmrs
-      - odoo-db
-      - odoo
-      - senaite-db
-      - senaite
-      - keycloak-db
-      - keycloak
-    state: present
+- name: "Placeholder: Unzip the Ozone HIS distribution"
+  debug:
+    msg: "This task will unzip the artifact to /home/ansible/ozone-dist."
+
+- name: "Placeholder: Start the Ozone HIS services"
+  debug:
+    msg: "This task will run 'docker-compose up' from the /home/ansible/ozone-dist directory."
