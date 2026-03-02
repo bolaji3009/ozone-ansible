@@ -13,6 +13,9 @@
 #
 # [integration]
 # integration_server_ip ansible_host=34.46.118.102
+#
+# [ozone]
+# ozone_server_ip ansible_host=34.46.118.103
 
 [openimis]
 openimis_server_ip ansible_host=REPLACE_ME
@@ -22,3 +25,6 @@ hcwathome_server_ip ansible_host=REPLACE_ME
 
 [integration]
 integration_server_ip ansible_host=REPLACE_ME
+
+[ozone]
+ozone_server_ip ansible_host=REPLACE_ME

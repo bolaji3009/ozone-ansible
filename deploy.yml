@@ -14,3 +14,7 @@
 - hosts: integration
   roles:
     - integration
+
+- hosts: ozone
+  roles:
+    - ozone
