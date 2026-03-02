@@ -1,0 +1,20 @@
+---
+- name: Clone the repository
+  git:
+    repo: https://github.com/bolaji3009/ozone.git
+    dest: /home/ansible/ozone
+    version: main
+
+- name: Start the openimis services
+  docker_compose:
+    project_src: /home/ansible/ozone
+    files:
+      - docker-compose.yml
+    services:
+      - openimis-db
+      - openimis-be
+      - openimis-fe
+      - openimis-cache
+      - openimis-opensearch
+      - openimis-opensearch-dashboards
+    state: present

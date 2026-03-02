@@ -1,0 +1,5 @@
+[openimis]
+openimis_server_ip ansible_host=REPLACE_ME
+
+[hcwathome]
+hcwathome_server_ip ansible_host=REPLACE_ME

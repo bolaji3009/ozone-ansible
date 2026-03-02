@@ -1,0 +1,12 @@
+---
+- hosts: all
+  roles:
+    - common
+
+- hosts: openimis
+  roles:
+    - openimis
+
+- hosts: hcwathome
+  roles:
+    - hcwathome
