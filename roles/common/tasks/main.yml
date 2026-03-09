@@ -11,7 +11,50 @@
     dest: /usr/local/bin/docker-compose
     mode: 'u+x,g+x,o+x'
 
+- name: Add apt-transport-https
+  apt:
+    name: apt-transport-https
+    state: present
+
+- name: Add Google Cloud SDK apt key
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Add Google Cloud SDK repository
+  apt_repository:
+    repo: deb https://packages.cloud.google.com/apt cloud-sdk main
+    state: present
+
 - name: Install gsutil
   apt:
     name: google-cloud-sdk
+    state: present
+    update_cache: yes
+
+- name: Install pip
+  apt:
+    name: python3-pip
+    state: present
+
+- name: Uninstall Docker SDK for Python
+  pip:
+    name: docker
+    state: absent
+
+- name: Uninstall docker-compose with pip
+  pip:
+    name: docker-compose
+    state: absent
+
+- name: Install Docker SDK for Python
+  pip:
+    name: docker
+    version: 4.4.4
+    state: present
+
+- name: Install docker-compose with pip
+  pip:
+    name: docker-compose
+    version: 1.29.2
     state: present

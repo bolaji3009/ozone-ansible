@@ -4,10 +4,14 @@
     repo: https://github.com/openimis/openimis-dist_dkr.git
     dest: /home/ansible/openimis-dist
     version: release/25.10
+    force: yes
+
+- name: Create the docker-compose.yml file
+  template:
+    src: docker-compose.yml.j2
+    dest: /home/ansible/openimis-dist/docker-compose.yml
 
 - name: Start the openIMIS services
-  docker_compose:
-    project_src: /home/ansible/openimis-dist
-    files:
-      - compose.yml
-    state: present
+  shell: docker-compose --no-ansi -f /home/ansible/openimis-dist/docker-compose.yml up -d
+  args:
+    chdir: /home/ansible/openimis-dist
