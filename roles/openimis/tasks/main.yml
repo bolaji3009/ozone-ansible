@@ -6,12 +6,23 @@
     version: release/25.10
     force: yes
 
-- name: Create the docker-compose.yml file
-  template:
-    src: docker-compose.yml.j2
-    dest: /home/ansible/openimis-dist/docker-compose.yml
+- name: Create .env file
+  copy:
+    dest: "/home/ansible/openimis-dist/.env"
+    content: |
+      DB_PASSWORD=mysecretpassword
+      DB_NAME=openimis
+      DB_USER=openimis
+      SECRET_KEY=mysecretkey
+      DOMAIN=localhost
 
-- name: Start the openIMIS services
-  shell: docker-compose --no-ansi -f /home/ansible/openimis-dist/docker-compose.yml up -d
+- name: Create .env.openSearch file
+  copy:
+    dest: "/home/ansible/openimis-dist/.env.openSearch"
+    content: |
+      OPENSEARCH_PASSWORD=mysecretpassword
+
+- name: Start the openIMIS services using shell
+  shell: docker-compose up -d
   args:
     chdir: /home/ansible/openimis-dist
