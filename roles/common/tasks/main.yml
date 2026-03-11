@@ -13,6 +13,8 @@
       - gnupg
     state: present
     update_cache: yes
+  retries: 3
+  delay: 10
 
 - name: Add Docker’s official GPG key
   become: true
@@ -37,9 +39,13 @@
       - docker-compose-plugin
     state: latest
     update_cache: yes
+  retries: 3
+  delay: 10
 
 - name: Install gsutil
   become: true
   apt:
     name: google-cloud-sdk
     state: present
+  retries: 3
+  delay: 10

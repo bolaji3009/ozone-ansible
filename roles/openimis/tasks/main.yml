@@ -23,6 +23,7 @@
       OPENSEARCH_PASSWORD=mysecretpassword
 
 - name: Start the openIMIS services using shell
-  shell: docker-compose up -d
-  args:
+  become: true
+  shell:
+    cmd: "docker compose up -d"
     chdir: /home/ansible/openimis-dist
