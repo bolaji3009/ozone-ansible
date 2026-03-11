@@ -1,20 +1,27 @@
 ---
 - hosts: all
+  pre_tasks:
+    - name: Wait for apt to finish
+      raw: sleep 15
   roles:
     - common
 
 - hosts: openimis
   roles:
-    - openimis
+    - role: openimis
+      tags: [openimis_deployment]
 
 - hosts: hcwathome
   roles:
-    - hcwathome
+    - role: hcwathome
+      tags: [hcwathome_deployment]
 
 - hosts: integration
   roles:
-    - integration
+    - role: integration
+      tags: [integration_deployment]
 
 - hosts: ozone
   roles:
-    - ozone
+    - role: ozone
+      tags: [ozone_deployment]
