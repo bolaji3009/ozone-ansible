@@ -1,7 +1,7 @@
 # This is the Ansible inventory file.
 
 [openimis]
-openimis_server_ip ansible_host=34.23.253.135
+openimis_server_ip ansible_host=34.139.37.56
 
 [hcwathome]
 hcwathome_server_ip ansible_host=34.139.113.4

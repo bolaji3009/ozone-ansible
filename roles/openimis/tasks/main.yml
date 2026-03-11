@@ -22,9 +22,6 @@
     content: |
       OPENSEARCH_PASSWORD=mysecretpassword
 
-- name: Fix invalid restart policy in compose.base.yml
-  shell: 'sed -i ''s/restart: no/restart: "no"/g'' /home/ansible/openimis-dist/compose.base.yml'
-
 - name: Start the openIMIS services using shell
   shell: docker-compose up -d
   args:
