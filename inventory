@@ -1,13 +1,13 @@
 # This is the Ansible inventory file.
 
 [openimis]
-openimis_server_ip ansible_host=34.26.45.80
+openimis_server_ip ansible_host=34.23.253.135
 
 [hcwathome]
-hcwathome_server_ip ansible_host=34.139.37.56
+hcwathome_server_ip ansible_host=34.139.113.4
 
 [integration]
-integration_server_ip ansible_host=35.231.123.150
+integration_server_ip ansible_host=35.185.115.108
 
 [ozone]
-ozone_server_ip ansible_host=34.138.160.76
+ozone_server_ip ansible_host=35.185.115.108

@@ -2,19 +2,10 @@
 - name: Clone the repository
   git:
     repo: https://github.com/bolaji3009/ozone.git
-    dest: /home/ansible/ozone
+    dest: /home/hello/ozone
     version: main
 
 - name: Start the hcwathome services
-  docker_compose:
-    project_src: /home/ansible/ozone
-    files:
-      - docker-compose.yml
-      - docker-compose.override.yml
-    services:
-      - hcwathome-db
-      - hcwathome
-      - eip-hcwathome-openmrs
-      - eip-hcwathome-mgmt-db
-      - rabbitmq-exporter
-    state: present
+  shell: "docker-compose -f docker-compose.yml up -d"
+  args:
+    chdir: /home/hello/ozone

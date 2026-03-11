@@ -4,7 +4,6 @@
     name:
       - docker.io
       - apt-transport-https
-      - python3-pip
     state: present
     update_cache: yes
 
@@ -28,18 +27,4 @@
 - name: Install gsutil
   apt:
     name: google-cloud-sdk
-    state: present
-
-- name: Ensure old Docker python libraries are removed
-  pip:
-    name:
-      - docker
-      - docker-compose
-    state: absent
-
-- name: Install compatible Docker python libraries
-  pip:
-    name:
-      - docker==4.4.4
-      - docker-compose==1.29.2
     state: present
