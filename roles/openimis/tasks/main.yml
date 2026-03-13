@@ -7,9 +7,9 @@
     force: yes
 
 - name: Create required .env files
-  template:
-    src: "{{ item.name }}.j2"
+  copy:
     dest: "/home/hello/openimis-dist/{{ item.name }}"
+    content: "{{ item.content }}"
   loop:
     - { name: '.env', content: 'DB_PASSWORD=mysecretpassword
 DB_NAME=openimis
