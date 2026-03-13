@@ -9,14 +9,15 @@
 - name: Create required .env files
   copy:
     dest: "/home/hello/openimis-dist/{{ item.name }}"
-    content: "{{ item.content }}"
+    content: |
+      {{ item.content }}
   loop:
-    - { name: '.env', content: 'DB_PASSWORD=mysecretpassword
+    - { name: '.env', content: "DB_PASSWORD=mysecretpassword
 DB_NAME=openimis
 DB_USER=openimis
 SECRET_KEY=mysecretkey
-DOMAIN=localhost' }
-    - { name: '.env.openSearch', content: 'OPENSEARCH_PASSWORD=mysecretpassword' }
+DOMAIN=localhost" }
+    - { name: '.env.openSearch', content: "OPENSEARCH_PASSWORD=mysecretpassword" }
 
 - name: Fix invalid restart policy in compose.base.yml
   shell: 'sed -i ''s/restart: "no"/restart: no/g'' /home/hello/openimis-dist/compose.base.yml'
