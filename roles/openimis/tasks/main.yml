@@ -2,40 +2,31 @@
 - name: Clone the openimis-dist repository
   git:
     repo: https://github.com/openimis/openimis-dist_dkr.git
-    dest: /home/hello/openimis-dist
+    dest: "{{ openimis_path }}"
     version: release/25.10
     force: yes
 
-- name: Create required .env files
-  copy:
-    dest: "/home/hello/openimis-dist/{{ item.name }}"
-    content: |
-      {{ item.content }}
-  loop:
-    - { name: '.env', content: "DB_PASSWORD=mysecretpassword
-DB_NAME=openimis
-DB_USER=openimis
-SECRET_KEY=mysecretkey
-DOMAIN=localhost" }
-    - { name: '.env.openSearch', content: "OPENSEARCH_PASSWORD=mysecretpassword" }
+- name: Generate the .env file with correct multi-line formatting
+  template:
+    src: env.j2
+    dest: "{{ openimis_path }}/.env"
+    mode: '0600'
 
-- name: Fix invalid restart policy in compose.base.yml
-  shell: 'sed -i ''s/restart: "no"/restart: no/g'' /home/hello/openimis-dist/compose.base.yml'
-
-- name: Pull latest images before starting
-  shell: docker compose pull
-  args:
-    chdir: "/home/hello/openimis-dist"
+- name: Validate .env file format (Fail if single-line)
+  shell: "grep -c '=' {{ openimis_path }}/.env"
+  register: line_count
+  failed_when: line_count.stdout|int < 5
+  changed_when: false
 
 - name: Start openIMIS services with explicit environment loading
-  shell: docker compose --env-file .env up -d
+  shell: docker compose --env-file .env up -d --remove-orphans
   args:
-    chdir: "/home/hello/openimis-dist"
+    chdir: "{{ openimis_path }}"
   register: compose_out
 
-- name: Wait for Redis to be healthy
+- name: Wait for Redis to be healthy before proceeding
   shell: docker inspect --format='{{json .State.Health.Status}}' openimis-dist-redis-1
   register: redis_health
   until: '"healthy" in redis_health.stdout'
-  retries: 10
-  delay: 5
+  retries: 15
+  delay: 10
