@@ -18,11 +18,10 @@
   failed_when: line_count.stdout|int < 5
   changed_when: false
 
-- name: Start openIMIS services with explicit environment loading
-  shell: docker compose --env-file .env up -d --remove-orphans
+- name: Start Redis first
+  shell: docker compose up -d redis
   args:
     chdir: "{{ openimis_path }}"
-  register: compose_out
 
 - name: Wait for Redis to be healthy before proceeding
   shell: docker inspect --format='{{json .State.Health.Status}}' openimis-dist-redis-1
@@ -30,3 +29,9 @@
   until: '"healthy" in redis_health.stdout'
   retries: 15
   delay: 10
+
+- name: Start the rest of the openIMIS services
+  shell: docker compose up -d --remove-orphans
+  args:
+    chdir: "{{ openimis_path }}"
+  register: compose_out
