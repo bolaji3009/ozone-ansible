@@ -18,8 +18,8 @@
   failed_when: line_count.stdout|int < 5
   changed_when: false
 
-- name: Start Redis first
-  shell: docker compose up -d redis
+- name: Start Redis and DB first
+  shell: docker compose up -d redis db
   args:
     chdir: "{{ openimis_path }}"
 
@@ -28,6 +28,14 @@
     name: openimis-dist-redis-1
   register: redis_container
   until: redis_container.container.State.Health.Status == "healthy"
+  retries: 15
+  delay: 10
+
+- name: Wait for DB to be healthy before proceeding
+  community.docker.docker_container_info:
+    name: openimis-dist-db-1
+  register: db_container
+  until: db_container.container.State.Health.Status == "healthy"
   retries: 15
   delay: 10
 
