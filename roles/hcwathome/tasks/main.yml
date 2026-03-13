@@ -6,6 +6,6 @@
     version: main
 
 - name: Start the hcwathome services
-  shell: "docker-compose -f docker-compose.yml up -d"
+  shell: "docker compose up -d"
   args:
     chdir: /home/hello/ozone
