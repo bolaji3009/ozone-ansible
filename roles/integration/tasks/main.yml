@@ -5,15 +5,8 @@
     dest: /home/ansible/ozone
     version: main
 
-- name: Start the integration services
-  docker_compose:
-    project_src: /home/ansible/ozone
-    files:
-      - docker-compose.yml
-      - docker-compose.override.yml
-    services:
-      - rabbitmq
-      - imis-connect
-      - superset-db
-      - superset
-    state: present
+- name: Deploy integration services using shell
+  become: true
+  shell:
+    cmd: "docker compose -f docker-compose.yml -f docker-compose.override.yml up -d rabbitmq imis-connect superset-db superset"
+    chdir: "/home/ansible/ozone"

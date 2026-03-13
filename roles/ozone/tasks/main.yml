@@ -1,19 +1,14 @@
 ---
-- name: Download the Ozone HIS distribution artifact from GCS
-  command: gsutil cp gs://ozone-artifacts/ozone-distro.zip /home/ansible/ozone-distro.zip
+- name: "Placeholder: Download the Ozone HIS distribution artifact from GCS"
+  debug:
+    msg: "This task will download the ozone-distro.zip from Google Cloud Storage."
 
-- name: Create the deployment directory
-  file:
-    path: /home/ansible/ozone-dist
-    state: directory
+- name: "Placeholder: Unzip the Ozone HIS distribution"
+  debug:
+    msg: "This task will unzip the artifact to /home/ansible/ozone-dist."
 
-- name: Unzip the Ozone HIS distribution
-  unarchive:
-    src: /home/ansible/ozone-distro.zip
-    dest: /home/ansible/ozone-dist
-    remote_src: yes
-
-- name: Start the Ozone HIS services
-  docker_compose:
-    project_src: /home/ansible/ozone-dist
-    state: present
+- name: Deploy Ozone HIS services using shell
+  become: true
+  shell:
+    cmd: "docker compose up -d"
+    chdir: "/home/ansible/ozone-dist"
