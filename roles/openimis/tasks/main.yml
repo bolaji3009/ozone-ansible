@@ -24,9 +24,10 @@
     chdir: "{{ openimis_path }}"
 
 - name: Wait for Redis to be healthy before proceeding
-  shell: docker inspect --format='{{json .State.Health.Status}}' openimis-dist-redis-1
-  register: redis_health
-  until: '"healthy" in redis_health.stdout'
+  community.docker.docker_container_info:
+    name: openimis-dist-redis-1
+  register: redis_container
+  until: redis_container.container.State.Health.Status == "healthy"
   retries: 15
   delay: 10
 
