@@ -40,7 +40,7 @@
   delay: 10
 
 - name: Run Migrations
-  shell: docker compose run --rm migrations
+  shell: docker compose run --rm -e DB_PASSWORD={{ openimis_env_vars.DB_PASSWORD }} migrations
   args:
     chdir: "{{ openimis_path }}"
 
