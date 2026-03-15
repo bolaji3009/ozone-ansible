@@ -39,6 +39,10 @@
   retries: 30
   delay: 15
 
+- name: Debug DB and Redis status
+  debug:
+    msg: "DB status: {{ db_container.container.State.Health.Status }}, Redis status: {{ redis_container.container.State.Health.Status }}"
+
 - name: Run Migrations
   shell: docker compose run --rm -e DB_PASSWORD={{ openimis_env_vars.DB_PASSWORD }} migrations
   args:
