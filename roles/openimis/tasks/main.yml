@@ -1,50 +1,11 @@
 ---
-- name: Clone the openimis-dist repository
-  git:
-    repo: https://github.com/openimis/openimis-dist_dkr.git
-    dest: "{{ openimis_path }}"
-    version: release/25.10
-    force: yes
-
-- name: Generate the .env file
-  template:
-    src: env.j2
-    dest: "{{ openimis_path }}/.env"
-    mode: '0644'
-
-- name: Ensure project directory is owned by the correct user
-  file:
-    path: "{{ openimis_path }}"
-    owner: hello
-    group: hello
-    recurse: yes
-
-- name: Take down all services and volumes for a clean slate
-  shell: docker compose down -v --remove-orphans
-  args:
-    chdir: "{{ openimis_path }}"
-  ignore_errors: true
-
 - name: Start all services
   shell: docker compose up -d
   args:
     chdir: "{{ openimis_path }}"
   register: compose_up_result
 
-- name: Wait for backend to become healthy
-  community.docker.docker_container_info:
-    name: openimis-dist_dkr-backend-1
-  register: backend_container
-  until: backend_container.container.State.Health.Status == "healthy"
-  retries: 30
-  delay: 15
-
-- name: Show all containers
-  shell: docker ps -a
-  args:
-    chdir: "{{ openimis_path }}"
-  register: ps_out
-
-- name: Display docker ps output
+- name: Display final container status
   debug:
-    msg: "{{ ps_out.stdout }}"
+    msg: "{{ item }}"
+  loop: "{{ compose_up_result.stdout_lines }}"
