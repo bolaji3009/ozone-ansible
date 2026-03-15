@@ -2,41 +2,40 @@
 - name: Clone the openimis-dist repository
   git:
     repo: https://github.com/openimis/openimis-dist_dkr.git
-    dest: /home/hello/openimis-dist
+    dest: "{{ openimis_path }}"
     version: release/25.10
     force: yes
 
-- name: Create required .env file
-  copy:
-    dest: /home/hello/openimis-dist/.env
-    content: |
-      DB_PASSWORD=mysecretpassword
-      DB_NAME=openimis
-      DB_USER=openimis
-      SECRET_KEY=mysecretkey
-      DOMAIN=localhost
+- name: Generate the .env file with correct multi-line formatting
+  template:
+    src: env.j2
+    dest: "{{ openimis_path }}/.env"
+    mode: '0600'
 
-- name: Create required .env.openSearch file
-  copy:
-    dest: /home/hello/openimis-dist/.env.openSearch
-    content: |
-      OPENSEARCH_PASSWORD=mysecretpassword
-
-- name: Start Redis and DB first
-  shell: docker compose up -d redis db
+- name: Take down any running services to ensure a clean start
+  shell: docker compose down --remove-orphans
   args:
-    chdir: /home/hello/openimis-dist
+    chdir: "{{ openimis_path }}"
+  ignore_errors: true # It's okay if this fails (e.g., on first run)
 
-- name: Wait for DB to be healthy
-  shell: docker compose ps db | grep -q 'healthy'
-  args:
-    chdir: /home/hello/openimis-dist
-  retries: 12
-  delay: 5
-  register: db_health
-  until: db_health.rc == 0
-
-- name: Start the rest of the services
+- name: Start all openIMIS services
   shell: docker compose up -d
   args:
-    chdir: /home/hello/openimis-dist
+    chdir: "{{ openimis_path }}"
+  register: compose_out
+
+- name: Wait for DB to be healthy
+  community.docker.docker_container_info:
+    name: openimis-dist-db-1
+  register: db_container
+  until: db_container.container.State.Health.Status == "healthy"
+  retries: 15
+  delay: 10
+
+- name: Wait for Redis to be healthy
+  community.docker.docker_container_info:
+    name: openimis-dist-redis-1
+  register: redis_container
+  until: redis_container.container.State.Health.Status == "healthy"
+  retries: 15
+  delay: 10
