@@ -44,7 +44,7 @@
     msg: "DB status: {{ db_container.container.State.Health.Status }}, Redis status: {{ redis_container.container.State.Health.Status }}"
 
 - name: Run Migrations
-  shell: docker compose run --rm -e DB_PASSWORD={{ openimis_env_vars.DB_PASSWORD }} migrations
+  shell: docker compose --env-file .env run --rm migrations
   args:
     chdir: "{{ openimis_path }}"
 
