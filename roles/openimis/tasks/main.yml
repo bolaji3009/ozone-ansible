@@ -43,11 +43,6 @@
   debug:
     msg: "DB status: {{ db_container.container.State.Health.Status }}, Redis status: {{ redis_container.container.State.Health.Status }}"
 
-- name: Run Migrations
-  shell: docker compose --env-file .env run --rm migrations
-  args:
-    chdir: "{{ openimis_path }}"
-
 - name: Start the rest of the openIMIS services
   shell: docker compose up -d
   args:
