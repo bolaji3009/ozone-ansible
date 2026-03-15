@@ -6,55 +6,40 @@
     version: release/25.10
     force: yes
 
-- name: Generate the .env file with correct multi-line formatting
+- name: Generate the .env file
   template:
     src: env.j2
     dest: "{{ openimis_path }}/.env"
-    mode: '0600'
+    mode: '0644'
 
-- name: Take down any running services to ensure a clean start
+- name: Ensure project directory is owned by the correct user
+  file:
+    path: "{{ openimis_path }}"
+    owner: hello
+    group: hello
+    recurse: yes
+
+- name: Take down all services and volumes for a clean slate
   shell: docker compose down -v --remove-orphans
   args:
     chdir: "{{ openimis_path }}"
-  ignore_errors: true # It's okay if this fails (e.g., on first run)
+  ignore_errors: true
 
-- name: Start Redis and DB first
-  shell: docker compose up -d redis db
-  args:
-    chdir: "{{ openimis_path }}"
-
-- name: Wait for DB to be healthy
-  community.docker.docker_container_info:
-    name: openimis-dist-db-1
-  register: db_container
-  until: db_container.container.State.Health.Status == "healthy"
-  retries: 30
-  delay: 15
-
-- name: Wait for Redis to be healthy
-  community.docker.docker_container_info:
-    name: openimis-dist-redis-1
-  register: redis_container
-  until: redis_container.container.State.Health.Status == "healthy"
-  retries: 30
-  delay: 15
-
-- name: Debug DB and Redis status
-  debug:
-    msg: "DB status: {{ db_container.container.State.Health.Status }}, Redis status: {{ redis_container.container.State.Health.Status }}"
-
-- name: Start the rest of the openIMIS services
+- name: Start all services
   shell: docker compose up -d
   args:
     chdir: "{{ openimis_path }}"
-  register: compose_out
+  register: compose_up_result
 
-- name: Show all containers
-  shell: docker ps -a
-  args:
-    chdir: "{{ openimis_path }}"
-  register: ps_out
+- name: Wait for backend to become healthy
+  community.docker.docker_container_info:
+    name: openimis-dist_dkr-backend-1
+  register: backend_container
+  until: backend_container.container.State.Health.Status == "healthy"
+  retries: 30
+  delay: 15
 
-- name: Display docker ps output
+- name: Display final container status
   debug:
-    msg: "{{ ps_out.stdout }}"
+    msg: "{{ item }}"
+  loop: "{{ compose_up_result.stdout_lines }}"

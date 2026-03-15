@@ -1,12 +1,18 @@
 ---
+- name: Wait for apt to finish
+  raw: 'while fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do sleep 5; done;'
+  changed_when: false
+
 - name: Install dependencies for Docker Repo
   apt:
-    name:
-      - ca-certificates
-      - curl
-      - gnupg
+    name: "{{ item }}"
     state: present
     update_cache: yes
+  loop:
+    - ca-certificates
+    - curl
+    - gnupg
+    - lsb-release
 
 - name: Add Docker’s official GPG key
   apt_key:
@@ -20,12 +26,20 @@
 
 - name: Install Docker Engine
   apt:
-    name:
-      - docker-ce
-      - docker-ce-cli
-      - containerd.io
-      - docker-compose-plugin
+    name: "{{ item }}"
     state: present
+    update_cache: yes
+  loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - docker-compose-plugin
+
+- name: Ensure hello user is in the docker group
+  user:
+    name: hello
+    groups: docker
+    append: yes
 
 - name: Add Google Cloud SDK apt key
   apt_key:
@@ -36,9 +50,9 @@
   apt_repository:
     repo: deb https://packages.cloud.google.com/apt cloud-sdk main
     state: present
-    update_cache: yes
 
 - name: Install gsutil
   apt:
     name: google-cloud-sdk
     state: present
+    update_cache: yes
