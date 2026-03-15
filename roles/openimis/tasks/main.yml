@@ -28,16 +28,16 @@
     name: openimis-dist-db-1
   register: db_container
   until: db_container.container.State.Health.Status == "healthy"
-  retries: 15
-  delay: 10
+  retries: 30
+  delay: 15
 
 - name: Wait for Redis to be healthy
   community.docker.docker_container_info:
     name: openimis-dist-redis-1
   register: redis_container
   until: redis_container.container.State.Health.Status == "healthy"
-  retries: 15
-  delay: 10
+  retries: 30
+  delay: 15
 
 - name: Run Migrations
   shell: docker compose run --rm -e DB_PASSWORD={{ openimis_env_vars.DB_PASSWORD }} migrations
