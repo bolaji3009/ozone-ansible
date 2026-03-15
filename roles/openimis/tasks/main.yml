@@ -15,7 +15,7 @@
   community.docker.docker_container_info:
     name: openimis-dist_dkr-backend-1
   register: backend_container
-  until: backend_container.container.State.Health.Status == "healthy"
+  until: backend_container.container.State.Health is defined and backend_container.container.State.Health.Status == "healthy"
   retries: 30
   delay: 15
 
