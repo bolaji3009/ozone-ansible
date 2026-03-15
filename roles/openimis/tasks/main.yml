@@ -1,4 +1,10 @@
 ---
+- name: Take down any running services to ensure a clean start
+  shell: docker compose down -v --remove-orphans
+  args:
+    chdir: "{{ openimis_path }}"
+  ignore_errors: true
+
 - name: Start all services
   shell: docker compose up -d
   args:
