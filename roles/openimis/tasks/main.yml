@@ -18,11 +18,10 @@
     chdir: "{{ openimis_path }}"
   ignore_errors: true # It's okay if this fails (e.g., on first run)
 
-- name: Start all openIMIS services
-  shell: docker compose up -d
+- name: Start Redis and DB first
+  shell: docker compose up -d redis db
   args:
     chdir: "{{ openimis_path }}"
-  register: compose_out
 
 - name: Wait for DB to be healthy
   community.docker.docker_container_info:
@@ -39,3 +38,9 @@
   until: redis_container.container.State.Health.Status == "healthy"
   retries: 15
   delay: 10
+
+- name: Start the rest of the openIMIS services
+  shell: docker compose up -d
+  args:
+    chdir: "{{ openimis_path }}"
+  register: compose_out
