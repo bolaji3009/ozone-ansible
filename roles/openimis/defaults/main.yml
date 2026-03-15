@@ -50,3 +50,4 @@ openimis_env_vars:
   CACHE_BACKEND: "django_redis.cache.RedisCache"
   CACHE_OPTIONS: ""
   ACCEPT_EULA: "Y"
+  WORKER_REPLICAS: "1"
