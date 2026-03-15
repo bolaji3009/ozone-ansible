@@ -1,15 +1,23 @@
 ---
-- name: Take down any running services to ensure a clean start
+- name: Nuke stale data and volumes to force credential sync
   shell: docker compose down -v --remove-orphans
   args:
     chdir: "{{ openimis_path }}"
-  ignore_errors: true
+  tags: [ 'never', 'reset-db' ]
 
 - name: Start all services
   shell: docker compose up -d
   args:
     chdir: "{{ openimis_path }}"
   register: compose_up_result
+
+- name: Wait for backend to become healthy
+  community.docker.docker_container_info:
+    name: openimis-dist_dkr-backend-1
+  register: backend_container
+  until: backend_container.container.State.Health.Status == "healthy"
+  retries: 30
+  delay: 15
 
 - name: Display final container status
   debug:
