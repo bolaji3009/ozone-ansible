@@ -37,7 +37,7 @@ openimis_env_vars:
   OPENSEARCH_BASIC_TOKEN: "Basic YWRtaW46YWRtaW4=" # admin:admin
 
   # --- Image Tags ---
-  DB_TAG: "latest"
-  BE_TAG: "latest"
-  FE_TAG: "latest"
-  GW_TAG: "latest"
+  DB_TAG: "25.10"
+  BE_TAG: "25.10"
+  FE_TAG: "25.10"
+  GW_TAG: "25.10"
