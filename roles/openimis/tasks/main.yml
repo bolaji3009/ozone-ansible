@@ -48,3 +48,13 @@
   args:
     chdir: "{{ openimis_path }}"
   register: compose_out
+
+- name: Show all containers
+  shell: docker ps -a
+  args:
+    chdir: "{{ openimis_path }}"
+  register: ps_out
+
+- name: Display docker ps output
+  debug:
+    msg: "{{ ps_out.stdout }}"
