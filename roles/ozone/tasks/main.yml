@@ -17,6 +17,12 @@
     dest: "{{ ozone_path }}/odoo.conf"
     mode: '0644'
 
+- name: Stop any existing services from root compose
+  shell: "docker compose down --remove-orphans"
+  args:
+    chdir: "{{ ozone_path }}"
+  ignore_errors: true
+
 - name: Deploy core HIS services
   become: true
   shell:

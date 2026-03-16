@@ -31,6 +31,12 @@
     - certbot
     - attachments
 
+- name: Stop any existing services from root compose
+  shell: "docker compose -f docker-compose.yml down --remove-orphans"
+  args:
+    chdir: "{{ hcwathome_path }}"
+  ignore_errors: true
+
 - name: Start the hcwathome services
   shell: "docker compose -f docker-compose.openimis-hcw.yml up -d coturn mediasoup mongo patient doctor admin backend redis"
   args:

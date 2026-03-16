@@ -11,6 +11,12 @@
     dest: "{{ integration_path }}/.env"
     mode: '0644'
 
+- name: Stop any existing services from root compose
+  shell: "docker compose down --remove-orphans"
+  args:
+    chdir: "{{ integration_path }}"
+  ignore_errors: true
+
 - name: Deploy integration services using shell
   become: true
   shell:
