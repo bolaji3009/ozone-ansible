@@ -11,6 +11,15 @@
     dest: "{{ hcwathome_path }}/.env"
     mode: '0644'
 
+- name: Ensure docker-compose files are present
+  copy:
+    src: "/mnt/data/ozone/ozone/{{ item }}"
+    dest: "{{ hcwathome_path }}/{{ item }}"
+    mode: '0644'
+  loop:
+    - docker-compose.openimis-hcw.yml
+    - docker-compose.override.yml
+
 - name: Ensure data directories exist
   file:
     path: "{{ hcwathome_path }}/data/{{ item }}"
