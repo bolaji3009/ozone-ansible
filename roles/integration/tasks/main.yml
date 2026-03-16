@@ -2,11 +2,17 @@
 - name: Clone the repository
   git:
     repo: https://github.com/bolaji3009/ozone.git
-    dest: /home/hello/ozone
+    dest: "{{ integration_path }}"
     version: main
+
+- name: Generate the .env file
+  template:
+    src: env.j2
+    dest: "{{ integration_path }}/.env"
+    mode: '0644'
 
 - name: Deploy integration services using shell
   become: true
   shell:
     cmd: "docker compose up -d rabbitmq imis-connect superset-db superset"
-    chdir: "/home/hello/ozone"
+    chdir: "{{ integration_path }}"

@@ -1,0 +1,38 @@
+---
+hcwathome_path: /home/hello/ozone
+hcwathome_env_vars:
+  # General
+  PROJECT_NAME: "ozone"
+  DOMAIN: "35.231.236.7"
+  HOSTS: "localhost,127.0.0.1,35.231.236.7"
+  SITE: "LOCAL@Home"
+  
+  # Senaite
+  SENAITE_ADMIN_USER: "admin"
+  SENAITE_ADMIN_PASSWORD: "admin_password"
+  SENAITE_DB_NAME: "senaite"
+  SENAITE_DB_USER: "senaite"
+  SENAITE_DB_PASSWORD: "senaite_password"
+  SENAITE_DB_HOST: "senaite-db"
+  
+  # Keycloak
+  KEYCLOAK_USER: "admin"
+  KEYCLOAK_PASSWORD: "admin_password"
+  KEYCLOAK_DB: "keycloak"
+  KEYCLOAK_DB_USER: "keycloak"
+  KEYCLOAK_DB_PASSWORD: "keycloak_password"
+  KEYCLOAK_CONFIG_PATH: "/home/hello/ozone/configs/keycloak"
+  
+  # Mongo (for HCW@Home)
+  MONGO_INITDB_ROOT_USERNAME: "admin"
+  MONGO_INITDB_ROOT_PASSWORD: "mongo_password"
+  
+  # Mediasoup
+  API_USER: "abcd"
+  API_SECRET: "1234"
+  
+  # Backend
+  APP_SECRET: "myjwtsecret"
+  PUBLIC_URL: "https://35.231.236.7:4000"
+  DOCTOR_URL: "https://35.231.236.7:4001"
+  MEDIASOUP_URL: "https://35.231.236.7:3443"

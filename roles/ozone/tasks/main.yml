@@ -1,29 +1,24 @@
 ---
-- name: Upload Ozone HIS distribution artifact
+- name: Clone the repository
+  git:
+    repo: https://github.com/bolaji3009/ozone.git
+    dest: "{{ ozone_path }}"
+    version: main
+
+- name: Generate the .env file
+  template:
+    src: env.j2
+    dest: "{{ ozone_path }}/.env"
+    mode: '0644'
+
+- name: Ensure odoo.conf is present
   copy:
-    src: /mnt/data/ozone/ozone/distro/target/ozone-distro-1.0.0-SNAPSHOT.zip
-    dest: /home/hello/ozone-distro.zip
+    src: /mnt/data/ozone/ozone/odoo.conf
+    dest: "{{ ozone_path }}/odoo.conf"
+    mode: '0644'
 
-- name: Create ozone-dist directory
-  file:
-    path: /home/hello/ozone-dist
-    state: directory
-    owner: hello
-    group: hello
-
-- name: Install unzip
-  apt:
-    name: unzip
-    state: present
-
-- name: Unzip the Ozone HIS distribution
-  unarchive:
-    src: /home/hello/ozone-distro.zip
-    dest: /home/hello/ozone-dist
-    remote_src: yes
-
-- name: Deploy Ozone HIS services using shell
+- name: Deploy core HIS services
   become: true
   shell:
-    cmd: "docker compose up -d"
-    chdir: "/home/hello/ozone-dist"
+    cmd: "docker compose up -d openmrs-db openmrs odoo-db odoo senaite-db senaite keycloak-db keycloak"
+    chdir: "{{ ozone_path }}"

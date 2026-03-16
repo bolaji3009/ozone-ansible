@@ -1,0 +1,27 @@
+---
+integration_path: /home/hello/ozone
+integration_env_vars:
+  # General
+  PROJECT_NAME: "ozone"
+  DOMAIN: "104.196.66.188"
+  HOSTS: "localhost,127.0.0.1,104.196.66.188"
+  
+  # OpenIMIS (Point to openimis-server)
+  OPENIMIS_BASE_URL: "http://34.74.112.223:8000"
+  
+  # RabbitMQ
+  RABBITMQ_DEFAULT_USER: "guest"
+  RABBITMQ_DEFAULT_PASS: "guest"
+  RABBITMQ_URI: "amqp://guest:guest@rabbitmq:5672"
+  
+  # Superset
+  SUPERSET_DB_NAME: "superset"
+  SUPERSET_DB_USER: "superset"
+  SUPERSET_DB_PASSWORD: "superset_password"
+  SUPERSET_SECRET_KEY: "another_secret_key"
+  SUPERSET_LOAD_EXAMPLES: "no"
+  
+  # IMIS-Connect
+  SERVICE_PORT: "8080"
+  OPENIMIS_AUTH: "basic"
+  LOG_LEVEL: "INFO"
