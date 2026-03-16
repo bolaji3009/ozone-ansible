@@ -2,11 +2,11 @@
 - name: Clone the repository
   git:
     repo: https://github.com/bolaji3009/ozone.git
-    dest: /home/ansible/ozone
+    dest: /home/hello/ozone
     version: main
 
 - name: Deploy integration services using shell
   become: true
   shell:
-    cmd: "docker compose -f docker-compose.yml -f docker-compose.override.yml up -d rabbitmq imis-connect superset-db superset"
-    chdir: "/home/ansible/ozone"
+    cmd: "docker compose up -d rabbitmq imis-connect superset-db superset"
+    chdir: "/home/hello/ozone"

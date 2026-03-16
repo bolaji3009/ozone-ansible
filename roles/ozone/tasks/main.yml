@@ -5,10 +5,11 @@
 
 - name: "Placeholder: Unzip the Ozone HIS distribution"
   debug:
-    msg: "This task will unzip the artifact to /home/ansible/ozone-dist."
+    msg: "This task will unzip the artifact to /home/hello/ozone-dist."
 
 - name: Deploy Ozone HIS services using shell
   become: true
   shell:
     cmd: "docker compose up -d"
-    chdir: "/home/ansible/ozone-dist"
+    chdir: "/home/hello/ozone-dist"
+  ignore_errors: true
