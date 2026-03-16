@@ -1,15 +1,29 @@
 ---
-- name: "Placeholder: Download the Ozone HIS distribution artifact from GCS"
-  debug:
-    msg: "This task will download the ozone-distro.zip from Google Cloud Storage."
+- name: Upload Ozone HIS distribution artifact
+  copy:
+    src: /mnt/data/ozone/ozone/distro/target/ozone-distro-1.0.0-SNAPSHOT.zip
+    dest: /home/hello/ozone-distro.zip
 
-- name: "Placeholder: Unzip the Ozone HIS distribution"
-  debug:
-    msg: "This task will unzip the artifact to /home/hello/ozone-dist."
+- name: Create ozone-dist directory
+  file:
+    path: /home/hello/ozone-dist
+    state: directory
+    owner: hello
+    group: hello
+
+- name: Install unzip
+  apt:
+    name: unzip
+    state: present
+
+- name: Unzip the Ozone HIS distribution
+  unarchive:
+    src: /home/hello/ozone-distro.zip
+    dest: /home/hello/ozone-dist
+    remote_src: yes
 
 - name: Deploy Ozone HIS services using shell
   become: true
   shell:
     cmd: "docker compose up -d"
     chdir: "/home/hello/ozone-dist"
-  ignore_errors: true
