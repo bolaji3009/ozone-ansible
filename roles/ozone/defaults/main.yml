@@ -45,3 +45,6 @@ ozone_env_vars:
   SUPERSET_DB_PASSWORD: "superset_password"
   SUPERSET_SECRET_KEY: "another_secret_key"
   SUPERSET_LOAD_EXAMPLES: "no"
+
+  # OpenMRS Performance
+  JAVA_OPTS: "-Xmx2g -Xms512m"

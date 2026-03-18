@@ -34,3 +34,5 @@
   shell:
     cmd: "docker compose up -d openmrs-db openmrs odoo-db odoo senaite-db senaite keycloak-db keycloak superset-db superset"
     chdir: "{{ ozone_path }}"
+  environment:
+    JAVA_OPTS: "-Xmx2g -Xms512m"
