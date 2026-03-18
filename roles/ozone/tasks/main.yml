@@ -4,6 +4,7 @@
     repo: https://github.com/bolaji3009/ozone.git
     dest: "{{ ozone_path }}"
     version: main
+    force: yes
 
 - name: Generate the .env file
   template:
