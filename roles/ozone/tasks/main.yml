@@ -24,6 +24,12 @@
     dest: "{{ ozone_path }}/distro/target/distro-emr-configuration/sdk-distro/web/openmrs-distro.properties"
     mode: '0644'
 
+- name: Ensure setenv.sh is present
+  copy:
+    src: /mnt/data/ozone/ozone/openmrs/setenv.sh
+    dest: "{{ ozone_path }}/openmrs/setenv.sh"
+    mode: '0644'
+
 - name: Nuke existing services and volumes (Targeted Reset)
   shell: "docker compose down -v --remove-orphans"
   args:
