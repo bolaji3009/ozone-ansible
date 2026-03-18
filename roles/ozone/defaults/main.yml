@@ -47,4 +47,4 @@ ozone_env_vars:
   SUPERSET_LOAD_EXAMPLES: "no"
 
   # OpenMRS Performance
-  JAVA_OPTS: "-Xmx2g -Xms512m"
+  JAVA_OPTS: "-Xmx3g -Xms512m"
