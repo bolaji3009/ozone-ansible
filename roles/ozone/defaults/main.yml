@@ -7,10 +7,10 @@ ozone_env_vars:
   HOSTS: "localhost,127.0.0.1,34.26.137.28"
   
   # OpenMRS (Fixed variables to match docker-compose.yml logic)
-  OMRS_DB_USER: "openmrs"
-  OMRS_DB_PASSWORD: "openmrs_password"
-  OPENMRS_DB_USER: "openmrs"
-  OPENMRS_DB_PASSWORD: "openmrs_password"
+  OMRS_DB_USER: "root"
+  OMRS_DB_PASSWORD: "openmrs_root_password"
+  OPENMRS_DB_USER: "root"
+  OPENMRS_DB_PASSWORD: "openmrs_root_password"
   MYSQL_ROOT_PASSWORD: "openmrs_root_password"
   
   # Odoo
