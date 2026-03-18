@@ -6,12 +6,12 @@ ozone_env_vars:
   DOMAIN: "34.26.137.28"
   HOSTS: "localhost,127.0.0.1,34.26.137.28"
   
-  # OpenMRS
+  # OpenMRS (Fixed variables to match docker-compose.yml logic)
   OMRS_DB_USER: "openmrs"
   OMRS_DB_PASSWORD: "openmrs_password"
-  MYSQL_ROOT_PASSWORD: "openmrs_root_password"
   OPENMRS_DB_USER: "openmrs"
   OPENMRS_DB_PASSWORD: "openmrs_password"
+  MYSQL_ROOT_PASSWORD: "openmrs_root_password"
   
   # Odoo
   ODOO_DATABASE: "odoo"
@@ -38,3 +38,10 @@ ozone_env_vars:
   KEYCLOAK_USER: "admin"
   KEYCLOAK_PASSWORD: "admin_password"
   KEYCLOAK_CONFIG_PATH: "/home/hello/ozone/configs/keycloak"
+
+  # Superset (Moved from Integration)
+  SUPERSET_DB_NAME: "superset"
+  SUPERSET_DB_USER: "superset"
+  SUPERSET_DB_PASSWORD: "superset_password"
+  SUPERSET_SECRET_KEY: "another_secret_key"
+  SUPERSET_LOAD_EXAMPLES: "no"

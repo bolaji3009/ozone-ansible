@@ -20,5 +20,5 @@
 - name: Deploy integration services using shell
   become: true
   shell:
-    cmd: "docker compose up -d rabbitmq imis-connect superset-db superset"
+    cmd: "docker compose up -d rabbitmq imis-connect"
     chdir: "{{ integration_path }}"

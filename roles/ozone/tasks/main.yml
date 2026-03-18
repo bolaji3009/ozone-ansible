@@ -17,14 +17,20 @@
     dest: "{{ ozone_path }}/odoo.conf"
     mode: '0644'
 
+- name: Nuke existing services and volumes (Targeted Reset)
+  shell: "docker compose down -v --remove-orphans"
+  args:
+    chdir: "{{ ozone_path }}"
+  tags: [ 'never', 'reset-ozone-db' ]
+
 - name: Stop any existing services from root compose
   shell: "docker compose down --remove-orphans"
   args:
     chdir: "{{ ozone_path }}"
   ignore_errors: true
 
-- name: Deploy core HIS services
+- name: Deploy core HIS and Superset services
   become: true
   shell:
-    cmd: "docker compose up -d openmrs-db openmrs odoo-db odoo senaite-db senaite keycloak-db keycloak"
+    cmd: "docker compose up -d openmrs-db openmrs odoo-db odoo senaite-db senaite keycloak-db keycloak superset-db superset"
     chdir: "{{ ozone_path }}"
